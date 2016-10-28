@@ -5,12 +5,12 @@ import {Router, Route, browserHistory} from 'react-router';
 import App from './components/shared/App';
 import NotFound from './components/shared/NotFound';
 
-import Hola from './components/home/Hola';
+import TodoList from './components/home/TodoList';
 
 const routes = (
     <Router history={browserHistory}>
         <Route component={App}>
-            <Route path="/" component={Hola} />
+            <Route path="/" component={TodoList} />
             <Route path="*" component={NotFound} />
         </Route>
     </Router>
