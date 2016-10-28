@@ -3,5 +3,5 @@
     npm i -g webpack
 ---
 
-> npm start
-> gulp
+    npm start
+    gulp
