@@ -8,7 +8,7 @@ export default class InsertTodo extends Component {
 
     render() {
         return (
-            <form onSubmit={this.props.onSubmit.bind(null, {input: this.refs.text})} style={styles.insertTodo}>
+            <form onSubmit={this.props.onSubmit.bind(null, {insertTodo: this})} style={styles.insertTodo}>
                 <div className="form-group">
                     <input
                         type="text"

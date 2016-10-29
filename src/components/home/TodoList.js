@@ -35,9 +35,15 @@ export default class TodoList extends Component {
             return (
                 <ul className="list-group">
                     {
-                        this.state.todos.map((todo) => {
+                        this.state.todos.map((todo, index) => {
                             return (
-                                <Todo key={todo.id} todo={todo} onClick={this.deleteTodo} />
+                                <Todo
+                                    key={index}
+                                    id={todo.id}
+                                    title={todo.title}
+                                    completed={todo.completed}
+                                    onClick={this.deleteTodo}
+                                />
                             );
                         })
                     }
@@ -61,15 +67,17 @@ export default class TodoList extends Component {
 
     insertTodo(obj, event) {
         event.preventDefault();
-
-        let text = obj.input.value.trim();
+        let text = obj.insertTodo.refs.text.value.trim();
         event.target.childNodes[0].childNodes[0].value = '';
 
         if(text.length) {
 
             let todos = this.state.todos;
 
-            console.log(text);
+            todos.splice(0, 0, {
+                id : this.state.id,
+                title : text
+            });
 
             this.setState({
                 todos : todos,
