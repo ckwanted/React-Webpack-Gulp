@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
 import Todo from './Todo';
+import InsertTodo from './InsertTodo';
 import axios from 'axios';
 
 export default class TodoList extends Component {
@@ -9,11 +10,13 @@ export default class TodoList extends Component {
         super(props);
 
         this.state = {
-            todos : []
+            todos : [],
+            id : null
         };
 
         this.renderTodos = this.renderTodos.bind(this);
         this.deleteTodo = this.deleteTodo.bind(this);
+        this.insertTodo = this.insertTodo.bind(this);
 
     }
 
@@ -21,7 +24,8 @@ export default class TodoList extends Component {
         axios.get('https://jsonplaceholder.typicode.com/todos')
             .then((response) => {
                 this.setState({
-                    todos : response.data
+                    todos : response.data,
+                    id : 201
                 });
             });
     }
@@ -31,9 +35,15 @@ export default class TodoList extends Component {
             return (
                 <ul className="list-group">
                     {
-                        this.state.todos.map((todo) => {
+                        this.state.todos.map((todo, index) => {
                             return (
-                                <Todo key={todo.id} todo={todo} onClick={this.deleteTodo} />
+                                <Todo
+                                    key={index}
+                                    id={todo.id}
+                                    title={todo.title}
+                                    completed={todo.completed}
+                                    onClick={this.deleteTodo}
+                                />
                             );
                         })
                     }
@@ -55,10 +65,34 @@ export default class TodoList extends Component {
         });
     }
 
+    insertTodo(obj, event) {
+        event.preventDefault();
+        let text = obj.insertTodo.refs.text.value.trim();
+        event.target.childNodes[0].childNodes[0].value = '';
+
+        if(text.length) {
+
+            let todos = this.state.todos;
+
+            todos.splice(0, 0, {
+                id : this.state.id,
+                title : text
+            });
+
+            this.setState({
+                todos : todos,
+                id : this.state.id + 1
+            });
+
+        }
+
+    }
+
     render() {
         return (
-            <div className="container" style={styles.todoList}>
-                <div className="list-group">
+            <div className="container">
+                <InsertTodo onSubmit={this.insertTodo} />
+                <div className="list-group" style={styles.todoList}>
                     <a className="list-group-item" style={styles.todoListHeader}>
                         TodoList by Mario Peñate Fariñas
                     </a>
