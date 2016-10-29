@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.15.2",
     "bootstrap": "^4.0.0-alpha.5",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",

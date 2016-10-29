@@ -3,15 +3,14 @@ import React, { Component, PropTypes } from 'react';
 export default class Todo extends Component {
 
     static propTypes = {
-        title : React.PropTypes.string.isRequired,
-        completed : React.PropTypes.bool
+        todo : React.PropTypes.object.isRequired
     };
 
     constructor(props) {
         super(props);
 
         this.state = {
-            completed : !!this.props.completed
+            completed : !!this.props.todo.completed
         };
 
     }
@@ -22,7 +21,7 @@ export default class Todo extends Component {
                 <button
                     type="button"
                     className="btn btn-sm btn-danger img-circle float-xs-right"
-                    onClick={this.props.onClick.bind(null, { id : 1 })}
+                    onClick={this.props.onClick.bind(null, { id : this.props.todo.id })}
                 >
                     Ｘ
                 </button>
@@ -38,7 +37,7 @@ export default class Todo extends Component {
                 >
                     ✓
                 </button>
-                { this.props.title }
+                { this.props.todo.title }
             </li>
         );
     }
