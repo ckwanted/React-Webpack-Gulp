@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
 import Todo from './Todo';
+import axios from 'axios';
 
 export default class TodoList extends Component {
 
@@ -8,7 +9,7 @@ export default class TodoList extends Component {
         super(props);
 
         this.state = {
-            todos : [1]
+            todos : []
         };
 
         this.renderTodos = this.renderTodos.bind(this);
@@ -17,24 +18,41 @@ export default class TodoList extends Component {
     }
 
     componentDidMount() {
-
+        axios.get('https://jsonplaceholder.typicode.com/todos')
+            .then((response) => {
+                this.setState({
+                    todos : response.data
+                });
+            });
     }
 
     renderTodos() {
         if(this.state.todos.length) {
             return (
                 <ul className="list-group">
-                    <Todo title="lorem1" completed={false} onClick={this.deleteTodo} />
-                    <Todo title="lorem2" completed={true} onClick={this.deleteTodo} />
-                    <Todo title="lorem3" onClick={this.deleteTodo} />
+                    {
+                        this.state.todos.map((todo) => {
+                            return (
+                                <Todo key={todo.id} todo={todo} onClick={this.deleteTodo} />
+                            );
+                        })
+                    }
                 </ul>
             );
         }
         else return ( <li className='list-group-item'>Empty</li> );
     }
 
-    deleteTodo(obj, event) {
-        console.log(obj);
+    deleteTodo(obj) {
+        let todos = this.state.todos;
+
+        todos = todos.filter((todo) => {
+            return todo.id != obj.id
+        });
+
+        this.setState({
+           todos : todos
+        });
     }
 
     render() {
